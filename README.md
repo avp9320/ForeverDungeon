@@ -17,6 +17,10 @@ It is not a dungeon journal and it is not meant to stay open.
 - Uses the same upgrade threshold as ForeverUpgrade by default.
 - No permanent window and no minimap button.
 
+## Installation
+
+The repository includes automated release packaging. Install the latest GitHub release manually, or point WoWUp at this GitHub repository for update management.
+
 ## Requirements
 
 ### Required
