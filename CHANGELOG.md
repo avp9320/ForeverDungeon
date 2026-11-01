@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 - 2026-11-01
+
+- Corrected release packaging so the ForeverLoot adapter is included in the installable ZIP.
+- This is the first release users should install for the ForeverLoot-based architecture.
+
 ## 0.2.0 - 2026-11-01
 
 - Replaced AtlasLootClassic Continued integration with the new **ForeverLoot** addon.
