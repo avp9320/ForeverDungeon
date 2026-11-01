@@ -63,4 +63,4 @@ It should report `ForeverLoot=on`.
 
 ## Current scope
 
-Version 0.2.0 is Warrior-first because upgrade decisions come from ForeverUpgrade. ForeverLoot is deliberately separate from the scoring layer, so the same loot database can support more classes later without changing the dungeon UI.
+Version 0.2.1 is Warrior-first because upgrade decisions come from ForeverUpgrade. ForeverLoot is deliberately separate from the scoring layer, so the same loot database can support more classes later without changing the dungeon UI.
