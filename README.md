@@ -4,11 +4,19 @@ A deliberately small WoW: Forever dungeon helper. When you enter a dungeon, it c
 
 It is not a dungeon journal and it is not meant to stay open.
 
+## How the Forever stack works
+
+- **ForeverLoot** — knows what drops from each dungeon and boss.
+- **ForeverUpgrade** — decides whether an item is an upgrade for your current Warrior setup.
+- **ForeverDungeon** — combines those two and shows only the upgrades when you enter the instance.
+
+No AtlasLoot dependency is required.
+
 ## What it does
 
 - Detects when you enter a dungeon or raid.
-- Pulls the dungeon's boss/item list from **AtlasLootClassic Continued** when available.
-- Uses **ForeverUpgrade** for the actual Warrior gear comparison and active Arms/Fury/Protection profile.
+- Reads the current instance, encounters, and loot from **ForeverLoot**.
+- Uses **ForeverUpgrade** for the actual gear comparison and active Arms/Fury/Protection profile.
 - Shows a small temporary notification such as `3 upgrades available • best: +8.4%`.
 - Automatically disappears after a few seconds.
 - `View Upgrades` opens a compact list showing only upgrade items and the boss/source.
@@ -19,19 +27,14 @@ It is not a dungeon journal and it is not meant to stay open.
 
 ## Installation
 
-The repository includes automated release packaging. Install the latest GitHub release manually, or point WoWUp at this GitHub repository for update management.
+The repository includes automated release packaging. Point WoWUp at this GitHub repository for update management.
 
 ## Requirements
 
-### Required
+- **ForeverUpgrade**
+- **ForeverLoot**
 
-- **ForeverUpgrade** — provides the gear scoring/comparison logic.
-
-### Strongly recommended
-
-- **AtlasLootClassic Continued** — provides current dungeon/boss/drop data. You do not need to use AtlasLoot's UI; ForeverDungeon reads its loaded data in the background.
-
-WoW: Forever's new dungeon loot is still being discovered, so any loot-based addon can only be as complete as the available drop data. Keeping AtlasLootClassic Continued updated lets ForeverDungeon improve as those tables improve.
+Both are declared addon dependencies so WoW loads them before ForeverDungeon.
 
 ## Commands
 
@@ -42,22 +45,22 @@ WoW: Forever's new dungeon loot is still being discovered, so any loot-based add
 - `/fd threshold 2` — use a 2% minimum when threshold inheritance is disabled.
 - `/fd inherit on|off` — inherit ForeverUpgrade's threshold (default: on).
 - `/fd no-upgrades on|off` — show/hide the short notification when nothing is worth chasing.
-- `/fd status` — show current status and whether AtlasLoot data is available.
+- `/fd status` — show current status and whether ForeverLoot is available.
 
 ## First test
 
-After installing, log in and run:
+After installing all three Forever addons, log in and run:
 
 `/fd test`
 
-You should get a temporary Scarlet Monastery test notification. Click **View Upgrades** to preview the compact list.
+That previews the temporary notification and detail panel.
 
 Then run:
 
 `/fd status`
 
-It should say `AtlasLoot=on` if AtlasLootClassic Continued is installed and available.
+It should report `ForeverLoot=on`.
 
 ## Current scope
 
-Version 0.1.0 is Warrior-first because it delegates upgrade decisions to ForeverUpgrade. The architecture is intentionally separated so more classes can be added later without changing the dungeon UI.
+Version 0.2.0 is Warrior-first because upgrade decisions come from ForeverUpgrade. ForeverLoot is deliberately separate from the scoring layer, so the same loot database can support more classes later without changing the dungeon UI.
