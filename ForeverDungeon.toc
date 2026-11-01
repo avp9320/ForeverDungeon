@@ -1,0 +1,14 @@
+## Interface: 16001
+## Title: Forever Dungeon
+## Notes: Shows only meaningful gear upgrades available in the dungeon you just entered.
+## Author: Andy + ChatGPT
+## Version: 0.1.0
+## SavedVariables: ForeverDungeonDB
+## Dependencies: ForeverUpgrade
+## OptionalDeps: AtlasLootClassic, AtlasLootClassic_DungeonsAndRaids
+
+Init.lua
+Data.lua
+AtlasLoot.lua
+UI.lua
+Core.lua
