@@ -52,7 +52,7 @@ jobs:
         run: |
           VERSION='${{ steps.version.outputs.version }}'
           mkdir -p package/ForeverDungeon
-          cp ForeverDungeon.toc Init.lua Data.lua ForeverLoot.lua UI.lua Core.lua README.md CHANGELOG.md LICENSE package/ForeverDungeon/
+          cp ForeverDungeon.toc *.lua README.md CHANGELOG.md LICENSE package/ForeverDungeon/
           cd package
           zip -r "../ForeverDungeon-v${VERSION}.zip" ForeverDungeon
 
