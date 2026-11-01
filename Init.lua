@@ -3,7 +3,7 @@ FD = FD or {}
 _G.ForeverDungeon = FD
 
 FD.ADDON_NAME = ADDON_NAME
-FD.VERSION = "0.2.0"
+FD.VERSION = "0.2.1"
 FD.results = {}
 FD.currentInstance = nil
 FD.lastScanKey = nil
