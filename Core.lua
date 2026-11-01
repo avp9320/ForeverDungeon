@@ -132,7 +132,7 @@ function FD:FinishScan(info, force)
     if not loot then
         self.results = {}
         if force then
-            self:Print("No loot database found for " .. tostring(info.name) .. ". Install/enable AtlasLootClassic Continued for full dungeon coverage.")
+            self:Print("No ForeverLoot data found for " .. tostring(info.name) .. ". Make sure ForeverLoot is enabled and has detected the instance.")
         elseif ForeverDungeonDB and ForeverDungeonDB.debug then
             self:Print("No loot data for " .. tostring(info.name))
         end
@@ -236,8 +236,8 @@ local function slash(input)
         end
         FD:Print("no-upgrade notice: " .. boolText(ForeverDungeonDB.showNoUpgrades))
     elseif command == "status" then
-        FD:Print(string.format("v%s • enabled=%s • threshold=%.1f%% • inherit=%s • AtlasLoot=%s",
-            FD.VERSION, boolText(ForeverDungeonDB.enabled), FD:GetThreshold(), boolText(ForeverDungeonDB.inheritThreshold), boolText(FD:TryLoadAtlasLoot())))
+        FD:Print(string.format("v%s • enabled=%s • threshold=%.1f%% • inherit=%s • ForeverLoot=%s",
+            FD.VERSION, boolText(ForeverDungeonDB.enabled), FD:GetThreshold(), boolText(ForeverDungeonDB.inheritThreshold), boolText(FD:IsForeverLootReady())))
     elseif command == "help" then
         help()
     else
