@@ -2,7 +2,7 @@
 ## Title: Forever Dungeon
 ## Notes: Shows only meaningful gear upgrades available in the dungeon you just entered.
 ## Author: Andy + ChatGPT
-## Version: 0.2.0
+## Version: 0.2.1
 ## SavedVariables: ForeverDungeonDB
 ## Dependencies: ForeverUpgrade, ForeverLoot
 
