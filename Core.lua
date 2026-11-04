@@ -149,12 +149,19 @@ function FD:FinishScan(info, force)
     self.unknownCount = unknown or 0
     local count = #self.results
     local best = self.results[1]
+    local partial = source == "Classic baseline (partial)"
 
     if count > 0 then
         local bestText = best.isNew and "new slot" or string.format("+%.1f%%", best.percent or 0)
         local unknownText = self.unknownCount > 0 and string.format(" • %d unknown", self.unknownCount) or ""
-        self:ShowToast(info.name, string.format("|cff20ff20%d upgrade%s available|r • best: %s%s", count, count == 1 and "" or "s", bestText, unknownText), true, ForeverDungeonDB.toastSeconds)
+        local summary = partial
+            and string.format("|cff20ff20%d potential upgrade%s|r in partial Classic loot • best: %s", count, count == 1 and "" or "s", bestText)
+            or string.format("|cff20ff20%d upgrade%s available|r • best: %s%s", count, count == 1 and "" or "s", bestText, unknownText)
+        self:ShowToast(info.name, summary, true, ForeverDungeonDB.toastSeconds)
         if ForeverDungeonDB.autoShowDetails then self:ShowDetails() end
+    elseif partial then
+        -- Partial Classic data cannot justify a "no upgrades" claim.
+        if force then self:Print("Classic loot list is incomplete; no verified upgrade verdict available.") end
     elseif self.unknownCount > 0 then
         self:ShowToast(info.name, string.format("No confirmed upgrades • |cffffff80%d item%s not scorable yet|r", self.unknownCount, self.unknownCount == 1 and "" or "s"), false, ForeverDungeonDB.toastSeconds)
     elseif ForeverDungeonDB.showNoUpgrades then

@@ -115,7 +115,10 @@ function FD:GetForeverLoot(instanceID, instanceName, difficultyID)
     end
 
     if #out.bosses > 0 then
-        return out, "ForeverLoot"
+        -- A Classic fallback may list only a fraction of actual Forever drops.
+        -- Pass its completeness through so the UI never says "no upgrades".
+        out.partial = instance.isStatic == true
+        return out, out.partial and "Classic baseline (partial)" or "ForeverLoot"
     end
 end
 
