@@ -10,8 +10,8 @@ This is a release gate, not a claim of implementation. README claims and static 
 
 ## Evidence
 
-- Code review: pending
-- Automated/static tests: pending
+- Code review: 2026-11-05 — commit 1986b91 bounds automatic item-cache retries to three per scan and rejects stale instance scans after zone changes; manual /fd scan resets retry budget. This addresses indefinite rescan loops but remains untested in the live client.
+- Automated/static tests: pending (no executable WoW client test harness verified in this run)
 - Live WoW: Forever client verification: pending
 - Release ZIP and WoWUp installation: pending
 
