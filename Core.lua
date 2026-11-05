@@ -80,10 +80,22 @@ function FD:EvaluateLoot(loot)
     local threshold = self:GetThreshold()
     local found, pending, unknown = {}, false, 0
     local dedupe = {}
+    local sources = {}
 
     for _, boss in ipairs(loot.bosses or {}) do
         for _, itemID in ipairs(boss.items or {}) do
-            if not dedupe[itemID] then
+            -- One item can drop from several bosses. Keep every documented source
+            -- even though the upgrade comparison itself only needs one pass.
+            if itemID then
+                sources[itemID] = sources[itemID] or { names = {}, seen = {} }
+                local source = sources[itemID]
+                local bossName = boss.name or "Unknown boss"
+                if not source.seen[bossName] then
+                    source.seen[bossName] = true
+                    source.names[#source.names + 1] = bossName
+                end
+            end
+            if itemID and not dedupe[itemID] then
                 dedupe[itemID] = true
                 local name, link, equipLoc, icon = itemInfo(itemID)
                 if not name then
@@ -112,6 +124,14 @@ function FD:EvaluateLoot(loot)
                     end
                 end
             end
+        end
+    end
+
+    for _, entry in ipairs(found) do
+        local source = sources[entry.itemID]
+        if source then
+            entry.boss = table.concat(source.names, ", ")
+            entry.bosses = source.names
         end
     end
 
