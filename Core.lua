@@ -125,6 +125,9 @@ function FD:EvaluateLoot(loot)
 end
 
 function FD:FinishScan(info, force)
+    local active = getInstance()
+    if not isDungeon(active) or makeScanKey(active) ~= makeScanKey(info) then return end
+
     local loot, source = self:GetLootForInstance(info.instanceID, info.name, info.difficultyID)
     self.currentInstance = info
     self.dataSource = source
@@ -170,10 +173,15 @@ function FD:FinishScan(info, force)
         self:ShowToast(info.name, "|cff9cff9cNo meaningful upgrades found.|r", false, math.min(5, ForeverDungeonDB.toastSeconds or 8))
     end
 
-    if pending and C_Timer and C_Timer.After then
+    -- Item data can remain unavailable indefinitely (including invalid IDs).
+    -- Bound automatic retries per instance so missing cache data cannot create
+    -- a permanent scan/toast loop. A manual scan resets this budget.
+    if pending and C_Timer and C_Timer.After and (self.pendingRetries or 0) < 3 then
+        self.pendingRetries = (self.pendingRetries or 0) + 1
+        local retryKey = makeScanKey(info)
         C_Timer.After(1.5, function()
             local current = getInstance()
-            if current and makeScanKey(current) == makeScanKey(info) then
+            if current and makeScanKey(current) == retryKey and FD.lastScanKey == retryKey then
                 FD:FinishScan(info, false)
             end
         end)
@@ -184,12 +192,15 @@ function FD:ScanCurrentDungeon(force)
     if not self:IsEnabled() and not force then return end
     local info = getInstance()
     if not isDungeon(info) then
+        self.lastScanKey = nil
+        self.pendingRetries = 0
         if force then self:Print("You are not currently inside a dungeon or raid.") end
         return
     end
 
     local key = makeScanKey(info)
     if not force and key == self.lastScanKey then return end
+    self.pendingRetries = 0
     self.lastScanKey = key
 
     if C_Timer and C_Timer.After then
