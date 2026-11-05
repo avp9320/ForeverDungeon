@@ -1,11 +1,10 @@
 local _, FD = ...
 FD = _G.ForeverDungeon or FD
 
--- ForeverDungeon intentionally keeps its bundled database tiny. The preferred
--- source is AtlasLootClassic Continued, which is already maintained for the
--- changing WoW: Forever loot tables. This table gives us a clean place to add
--- verified Forever-specific corrections or emergency fallbacks without
--- duplicating AtlasLoot's entire database.
+-- ForeverDungeon reads boss loot from the independent ForeverLoot addon.
+-- There is no AtlasLoot dependency. Keep this optional override table for
+-- emergency or locally verified corrections when ForeverLoot cannot provide
+-- a known item/source yet; do not claim an empty table means no loot drops.
 --
 -- Format:
 -- FD.BUILTIN_LOOT[instanceID] = {
