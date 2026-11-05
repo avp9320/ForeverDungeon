@@ -190,9 +190,14 @@ function FD:ShowDetails()
         row:SetPoint("TOPLEFT", content, "TOPLEFT", 0, y)
         row.itemID = nil
         row.itemLink = nil
-        row.icon:SetTexture("Interface\\RaidFrame\\ReadyCheck-Ready")
-        row.name:SetText("No meaningful upgrades found")
-        row.source:SetText("You're good here with your current gear.")
+        local incomplete = self.dataPartial == true or (tonumber(self.unknownCount) or 0) > 0
+        row.icon:SetTexture(incomplete
+            and "Interface\\Icons\\INV_Misc_QuestionMark"
+            or "Interface\\RaidFrame\\ReadyCheck-Ready")
+        row.name:SetText(incomplete and "Upgrade status unknown" or "No meaningful upgrades found")
+        row.source:SetText(incomplete
+            and "Loot data is incomplete or contains unscorable items."
+            or "No upgrades found in the available complete loot data.")
         row.delta:SetText("")
         row:Show()
         y = y - 42
