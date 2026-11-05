@@ -128,6 +128,8 @@ function FD:FinishScan(info, force)
     local loot, source = self:GetLootForInstance(info.instanceID, info.name, info.difficultyID)
     self.currentInstance = info
     self.dataSource = source
+    -- A missing/incomplete reference catalog is not a "no upgrades" result.
+    self.dataPartial = not loot or loot.partial == true
 
     if not loot then
         self.results = {}
