@@ -18,3 +18,8 @@ This is a release gate, not a claim of implementation. README claims and static 
 ## Status
 
 Pre-1.0. Features described in README may be implemented but are not accepted as verified here until tested. Avoid declaring v1.0 solely on version metadata.
+
+## Phase 1 implementation — shared loot sources (2026-11-05)
+
+- [x] Preserve all documented boss names when the same item ID appears under multiple bosses (`Core.lua`, commit `d43962c`). Comparison remains deduplicated per item, while the upgrade detail entry now displays all distinct source names and exposes `bosses` for future consumers.
+- [ ] Verify shared-drop source labels against a real ForeverLoot catalog in the client; no Lua runtime or live-game test performed for this change.
