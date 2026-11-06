@@ -104,6 +104,12 @@ function FD:EvaluateLoot(loot)
                     requestItem(itemID)
                 else
                     local ok, comparison, reason = pcall(FU.CompareItem, FU, link)
+                    -- Protection may select a threat/survival recommendation policy.
+                    -- Use the same chosen comparison as ForeverUpgrade's arrows.
+                    if ok and comparison and type(FU.RecommendationComparison) == "function" then
+                        local okPolicy, policyResult = pcall(FU.RecommendationComparison, FU, link, comparison)
+                        if okPolicy and policyResult then comparison = policyResult end
+                    end
                     if ok and comparison and comparison.delta and comparison.delta > 0 then
                         local pct, isNew = resultPercent(FU, comparison)
                         if isNew or (pct and pct >= threshold) then
@@ -119,7 +125,11 @@ function FD:EvaluateLoot(loot)
                                 delta = comparison.delta,
                             }
                         end
-                    elseif ok and not comparison and reason == "not_equippable" and equipLoc and equipLoc ~= "" then
+                    elseif ok and not comparison and
+                        (reason == "unscorable" or
+                        (reason == "not_equippable" and equipLoc and equipLoc ~= "")) then
+                        -- Worn item data can still be missing. Never call it a
+                        -- no-upgrades result when we couldn't compare properly.
                         unknown = unknown + 1
                     end
                 end
@@ -156,6 +166,7 @@ function FD:FinishScan(info, force)
 
     if not loot then
         self.results = {}
+        self.unknownCount = 0
         if force then
             self:Print("No ForeverLoot data found for " .. tostring(info.name) .. ". Make sure ForeverLoot is enabled and has detected the instance.")
         elseif ForeverDungeonDB and ForeverDungeonDB.debug then
@@ -177,7 +188,16 @@ function FD:FinishScan(info, force)
     local partial = loot.partial == true
 
     if count > 0 then
-        local bestText = best.isNew and "new slot" or string.format("+%.1f%%", best.percent or 0)
+        local bestText
+        if best.isNew then
+            bestText = "new slot"
+        elseif best.percent and best.percent >= 100 then
+            -- Score ratios explode when the worn item contributes almost no
+            -- weighted stats. This is NOT a 100%+ DPS or survivability gain.
+            bestText = "strong gear-score upgrade"
+        else
+            bestText = string.format("+%.1f%% item score", best.percent or 0)
+        end
         local unknownText = self.unknownCount > 0 and string.format(" • %d unknown", self.unknownCount) or ""
         local summary = partial
             and string.format("|cff20ff20%d potential upgrade%s|r in reference loot (partial) • best: %s", count, count == 1 and "" or "s", bestText)
