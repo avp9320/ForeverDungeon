@@ -162,7 +162,7 @@ function FD:ShowDetails()
     local source = self.dataSource and (" • data: " .. self.dataSource) or ""
     local unknown = tonumber(self.unknownCount) or 0
     local unknownText = unknown > 0 and string.format(" • %d unscorable yet", unknown) or ""
-    panelSub:SetText(string.format("%d meaningful upgrade%s%s%s", #results, #results == 1 and "" or "s", unknownText, source))
+    panelSub:SetText(string.format("%d estimated item-score upgrade%s%s%s", #results, #results == 1 and "" or "s", unknownText, source))
 
     for _, row in ipairs(rows) do row:Hide() end
     local y = -2
@@ -177,6 +177,9 @@ function FD:ShowDetails()
         row.source:SetText(result.boss or "Unknown source")
         if result.isNew then
             row.delta:SetText("|cff20ff20NEW SLOT|r")
+        elseif result.percent and result.percent >= 100 then
+            -- A weighted item-score ratio is not a real combat performance gain.
+            row.delta:SetText("|cff20ff20STRONG|r")
         else
             row.delta:SetText(string.format("|cff20ff20+%.1f%%|r", result.percent or 0))
         end
