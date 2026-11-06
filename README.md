@@ -17,8 +17,8 @@ No AtlasLoot dependency is required.
 - Detects when you enter a dungeon or raid.
 - Reads the current instance, encounters, and loot from **ForeverLoot**, including the 30 Hall of Thanes and Ruins of Lordaeron reference drops and future loot the player has observed.
 - Never treats an incomplete reference/beta catalog as definitive proof there are no upgrades. Both the entry notification and detail panel show unknown coverage instead of falsely giving an all-clear.
-- Uses **ForeverUpgrade** for the actual gear comparison and active Arms/Fury/Protection profile.
-- Shows a small temporary notification such as `3 upgrades available • best: +8.4%`.
+- Uses **ForeverUpgrade** for the actual gear comparison and active Arms/Fury/Protection profile; filters out ineligible-level gear and cloth/leather Warrior core-armor suggestions.
+- Shows a small temporary notification such as `3 estimated upgrades • best: +8.4% item score`. Score percentages are **not predicted damage/survival gains**; exaggerated near-zero-baseline ratios display **STRONG** instead.
 - Automatically disappears after a few seconds.
 - `View Upgrades` opens a compact list showing only upgrade items and the boss/source.
 - `/fd` reopens the latest list whenever you want it.
@@ -64,4 +64,4 @@ It should report `ForeverLoot=on`.
 
 ## Current scope
 
-Version 0.2.6 is Warrior-first because upgrade decisions come from ForeverUpgrade. ForeverLoot is deliberately separate from the scoring layer, so the same loot database can support more classes later without changing the dungeon UI.
+Version 0.2.7 is Warrior-first because upgrade decisions come from ForeverUpgrade. ForeverLoot is deliberately separate from the scoring layer, so the same loot database can support more classes later without changing the dungeon UI.
