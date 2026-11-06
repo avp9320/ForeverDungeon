@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.7 - 2026-11-05
+- Inherit ForeverUpgrade's corrected Warrior armor/required-level rules and no-fake-empty-slot checks.
+- Handle unscorable comparisons as unknown, not proven non-upgrades.
+- Use ForeverUpgrade's configured Protection recommendation priority where available.
+- Replace extreme percentages with STRONG and label all estimates as item-score differences.
+
+
 ## 0.2.1 - 2026-11-01
 
 - Corrected release packaging so the ForeverLoot adapter is included in the installable ZIP.
